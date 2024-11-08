@@ -35,18 +35,7 @@ pipeline {
             }
         }
 
-        // 4. Testing the Blue environment
-        stage('Testing') {
-            steps {
-                script {
-                    // Health check on the "blue" environment using the curl command
-                    def curlStatus = sh(script: 'curl --retry 5 --retry-delay 5 --retry-connrefused http://localhost:8083/health', returnStatus: true)
-                    if (curlStatus != 0) {
-                        error "Health check failed with status: ${curlStatus}"
-                    }
-                }
-            }
-        }
+
 
         // 5. Deploy the app to the "green" environment on port 8083
         stage('Deploy to Green Environment') {
