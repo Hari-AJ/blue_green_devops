@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "aishwaryar20115/app"  // Docker image name, updated to include your Docker Hub repo
+        DOCKER_IMAGE = "aishwaryar20115/app"  // Docker image name
         VERSION = "1.0"                       // Image tag
     }
 
@@ -38,13 +38,14 @@ pipeline {
         // 4. Testing the Blue environment
         stage('Testing') {
             steps {
-                
                 script {
+                    // Health check on the "blue" environment using the curl command
                     def curlStatus = sh(script: 'curl --retry 5 --retry-delay 5 --retry-connrefused http://localhost:8083/health', returnStatus: true)
                     if (curlStatus != 0) {
                         error "Health check failed with status: ${curlStatus}"
-                        }
+                    }
                 }
+            }
         }
 
         // 5. Deploy the app to the "green" environment on port 8083
@@ -87,3 +88,4 @@ pipeline {
         }
     }
 }
+
