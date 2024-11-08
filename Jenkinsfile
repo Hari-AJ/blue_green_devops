@@ -30,7 +30,7 @@ pipeline {
                     // Stop and remove any existing "app-blue" container if it exists
                     sh 'docker rm -f app-blue || true'
                     // Run a new "app-blue" container with the specified Docker image and version
-                    sh "docker run -d -p 8082:8080 --name app-blue ${DOCKER_IMAGE}:${VERSION}"
+                    sh "docker run -d -p 8083:8080 --name app-blue ${DOCKER_IMAGE}:${VERSION}"
                 }
             }
         }
@@ -40,7 +40,7 @@ pipeline {
             steps {
                 script {
                     // Health check on the "blue" environment; update to your actual health endpoint if necessary
-                    sh 'curl --retry 5 --retry-delay 5 --retry-connrefused http://localhost:8082/health || exit 1'
+                    sh 'curl --retry 5 --retry-delay 5 --retry-connrefused http://localhost:8083/health || exit 1'
                 }
             }
         }
@@ -52,7 +52,7 @@ pipeline {
                     // Stop and remove any existing "app-green" container if it exists
                     sh 'docker rm -f app-green || true'
                     // Run a new "app-green" container with the specified Docker image and version
-                    sh "docker run -d -p 8083:8080 --name app-green ${DOCKER_IMAGE}:${VERSION}"
+                    sh "docker run -d -p 8084:8080 --name app-green ${DOCKER_IMAGE}:${VERSION}"
                 }
             }
         }
